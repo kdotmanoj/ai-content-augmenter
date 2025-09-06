@@ -37,7 +37,7 @@ export default {
         [summaryResult, keywordsResult] = await Promise.all([
             // Summarization model call
             env.AI.run('@cf/mistral/mistral-7b-instruct-v0.1', {
-				prompt: `Generate a concise, one-paragraph summary of the following text:\n\n${textForAI}`,
+				prompt: `Generate a concise, one-paragraph summary of the following text. **Ensure the summary ends in a complete sentence.**\n\n${textForAI}`,
 				max_tokens: 250
 			}),
 
@@ -73,7 +73,7 @@ export default {
         element(element) {
 			const baseHref = new URL(targetUrl).origin;
       		element.prepend(`<base href="${baseHref}" />`, { html: true });
-			
+
           	generatedKeywords.forEach(keyword => {
             if (keyword) {
               element.append(`<meta name="keywords" content="${keyword.trim()}">`, { html: true });
