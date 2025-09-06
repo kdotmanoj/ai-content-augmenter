@@ -71,7 +71,10 @@ export default {
     const augmenter = new HTMLRewriter()
       .on('head', {
         element(element) {
-          generatedKeywords.forEach(keyword => {
+			const baseHref = new URL(targetUrl).origin;
+      		element.prepend(`<base href="${baseHref}" />`, { html: true });
+			
+          	generatedKeywords.forEach(keyword => {
             if (keyword) {
               element.append(`<meta name="keywords" content="${keyword.trim()}">`, { html: true });
             }
