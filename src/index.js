@@ -36,10 +36,10 @@ export default {
     try {
         [summaryResult, keywordsResult] = await Promise.all([
             // Summarization model call
-            env.AI.run('@cf/facebook/bart-large-cnn', {
-                input_text: textForAI,
-                max_length: 150,
-            }),
+            env.AI.run('@cf/mistral/mistral-7b-instruct-v0.1', {
+				prompt: `Generate a concise, one-paragraph summary of the following text:\n\n${textForAI}`,
+				max_tokens: 250
+			}),
 
             // Keyword generation model call
             env.AI.run('@cf/meta/llama-2-7b-chat-int8', {
@@ -52,7 +52,7 @@ export default {
 
 
     // --- Part 3: Inject the AI Content back into the page ---
-    const summaryText = summaryResult.summary || 'Could not generate summary.';
+    const summaryText = summaryResult.response || 'Could not generate summary.';
     
     let generatedKeywords = [];
     const rawKeywords = keywordsResult.response || '';
